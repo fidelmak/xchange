@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_popup_card/flutter_popup_card.dart';
 
-class BottomNav extends StatelessWidget {
-  const BottomNav({super.key});
+class ActionBar extends StatelessWidget {
+  const ActionBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,34 +16,42 @@ class BottomNav extends StatelessWidget {
               IconButton(
                   onPressed: () {},
                   icon: Icon(
-                    Icons.home_filled,
+                    Icons.rocket_launch_outlined,
                     color: Colors.green,
                   )),
-              Text('Home')
+              Text('Deposit')
             ],
           ),
           Column(
             children: [
               IconButton(
                   onPressed: () {},
-                  icon: Icon(Icons.tram_rounded, color: Colors.grey)),
-              Text('Trade')
+                  icon: Icon(Icons.credit_card, color: Colors.green)),
+              Text('Withdraw')
             ],
           ),
           Column(
             children: [
               IconButton(
                   onPressed: () {},
-                  icon: Icon(Icons.upcoming_sharp, color: Colors.grey)),
-              Text('Futures')
+                  icon: Icon(Icons.attractions_outlined, color: Colors.green)),
+              Text('IEO')
             ],
           ),
           Column(
             children: [
               IconButton(
                   onPressed: () {},
-                  icon: Icon(Icons.wallet, color: Colors.grey)),
-              Text('Wallets')
+                  icon: Icon(Icons.gavel_outlined, color: Colors.green)),
+              Text('STAKING')
+            ],
+          ),
+          Column(
+            children: [
+              IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.headset, color: Colors.green)),
+              Text('Chat')
             ],
           ),
         ],

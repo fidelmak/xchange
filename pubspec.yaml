@@ -38,6 +38,13 @@ dependencies:
   cupertino_icons: ^1.0.6
   crypto_font_icons: 1.0.0+1
   cryptofont: ^1.0.2+1
+  flutter_popup_card: ^0.0.5
+  flutter_popup: ^3.3.0
+  web_socket_channel: ^2.2.0
+  
+  intl: ^0.17.0
+  http: ^1.2.1
+  wx_tile: ^1.0.2
 
 dev_dependencies:
   flutter_test:

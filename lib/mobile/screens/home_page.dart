@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/action_tabs.dart';
 import '../widgets/card_right.dart';
 import '../widgets/card_tag.dart';
+import '../widgets/new.dart';
+import '../widgets/price.dart';
+import '../widgets/update_price.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
   static String id = "HomePage";
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
   Widget build(BuildContext context) {
-    return const Padding(
+    return Padding(
       padding: EdgeInsets.all(24.0),
       child: SingleChildScrollView(
         child: Column(
@@ -26,11 +35,24 @@ class HomePage extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 20,
+              height: 30,
+            ),
+            ActionBar(),
+            SizedBox(
+              height: 30,
+            ),
+            CryptoPricesWidget(),
+            //PriceList(),
+            SizedBox(
+              height: 30,
+            ),
+            UpdatedPrice(),
+            SizedBox(
+              height: 30,
             ),
             Center(
                 child: Text(
-              "Mobile Screen",
+              "live updates".toUpperCase(),
               style: TextStyle(color: Colors.white),
             ))
           ],

@@ -41,6 +41,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.18.0"
+  crypto_font_icons:
+    dependency: "direct main"
+    description:
+      name: crypto_font_icons
+      sha256: "0ebf8d01f4d567917f159c4ea32954767dbe8c55d8b9eca80016e1b381b8ac93"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0+1"
+  cryptofont:
+    dependency: "direct main"
+    description:
+      name: cryptofont
+      sha256: a7a6264e4148f5e6aa8c5953c8b15839d831f5205a9138e0aa3e8902d2af6d77
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2+1"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -210,3 +226,4 @@ packages:
     version: "13.0.0"
 sdks:
   dart: ">=3.3.4 <4.0.0"
+  flutter: ">=1.17.0"

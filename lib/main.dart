@@ -6,7 +6,7 @@ import 'mobile/mobile_page.dart';
 import 'welcome_page.dart';
 
 void main() {
-  runApp( MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -16,9 +16,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'xchange',
         theme: ThemeData.dark().copyWith(
-            scaffoldBackgroundColor: backgroundColor,
-           
-            ),
+          scaffoldBackgroundColor: backgroundColor,
+        ),
         home: const Responsive(
           mobileScreenLayout: MobileScreenLayout(),
           webScreenLayout: DesktopScreenLayout(),

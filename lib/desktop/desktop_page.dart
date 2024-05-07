@@ -7,15 +7,21 @@ class DesktopScreenLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromARGB(255, 51, 4, 0),
-
+      backgroundColor: Color.fromARGB(255, 51, 4, 0),
       body: Container(
-        child:  Column(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [Center(child: Text("Web not  Mobile Screen", style: TextStyle(color: Colors.white),))],
+          children: [
+            Center(
+                child: Text(
+              "Web not  Mobile Screen",
+              style: TextStyle(color: Colors.white),
+            ))
+          ],
         ),
       ),
     );
   }
 }
+// MobileLoginScreen(), MobileRegisterScreen()

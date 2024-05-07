@@ -1,15 +1,25 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:xchange/mobile/user/register.dart';
 
+import '../auth/auth_service.dart';
 import '../const.dart';
 import '../widgets/my_text_button.dart';
-import 'mobile_login_screen.dart';
+import 'home.dart';
 
-class MobileRegisterScreen extends StatelessWidget {
-  const MobileRegisterScreen({
+class MobileLoginScreen extends StatefulWidget {
+  const MobileLoginScreen({
     super.key,
   });
-  static String id = "MobileRegisterScreen";
+  static String id = "MobileLoginScreen";
 
+  @override
+  State<MobileLoginScreen> createState() => _MobileLoginScreenState();
+}
+
+class _MobileLoginScreenState extends State<MobileLoginScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,14 +43,12 @@ class MobileRegisterScreen extends StatelessWidget {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: backgroundColor,
+                    backgroundColor: Colors.grey.withOpacity(0.2),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                   ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, MobileLoginScreen.id);
-                  },
+                  onPressed: () {},
                   child: Text(
                     "Login",
                     style: TextStyle(fontSize: 16, color: textWhite),
@@ -51,12 +59,14 @@ class MobileRegisterScreen extends StatelessWidget {
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey.withOpacity(0.2),
+                    backgroundColor: backgroundColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, MobileRegisterScreen.id);
+                  },
                   child: Text(
                     "Register",
                     style: TextStyle(fontSize: 16, color: textWhite),
@@ -68,25 +78,11 @@ class MobileRegisterScreen extends StatelessWidget {
               height: 30,
             ),
             Text(
-              "Register  with your Name, Email and password ",
+              "Login with your Email and password ",
               style: TextStyle(fontSize: 16, color: textGrey),
             ),
             SizedBox(
-              height: 20,
-            ),
-            Text(
-              "Name",
-              style: TextStyle(fontSize: 18, color: textWhite),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            const MyTextButton(
-              hint: 'Ben',
-              obscure: false,
-            ),
-            SizedBox(
-              height: 20,
+              height: 40,
             ),
             Text(
               "Email ",
@@ -95,12 +91,13 @@ class MobileRegisterScreen extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            const MyTextButton(
-              hint: 'Ben@gmail.com',
+            MyTextButton(
+              controller: emailController,
+              hint: 'for example Ben Paul',
               obscure: false,
             ),
             SizedBox(
-              height: 20,
+              height: 40,
             ),
             Text(
               "Password ",
@@ -109,9 +106,10 @@ class MobileRegisterScreen extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            const MyTextButton(
+            MyTextButton(
               hint: 'Mypassword123@',
               obscure: true,
+              controller: passwordController,
             ),
             SizedBox(
               height: 50,
@@ -129,9 +127,26 @@ class MobileRegisterScreen extends StatelessWidget {
                 width: 300,
                 height: 45,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    final message = await AuthService().login(
+                      email: emailController.text,
+                      password: passwordController.text,
+                    );
+                    if (message!.contains('Success')) {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (context) => const Home(),
+                        ),
+                      );
+                    }
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(message),
+                      ),
+                    );
+                  },
                   child: Text(
-                    "Register",
+                    "LOGIN",
                     style: TextStyle(color: backgroundColor, fontSize: 16),
                   ),
                 ),
@@ -153,7 +168,7 @@ class MobileRegisterScreen extends StatelessWidget {
                 TextButton(
                   onPressed: () {},
                   child: Text(
-                    "Login",
+                    "Sign Up",
                     style: TextStyle(color: Colors.green),
                   ),
                 ),

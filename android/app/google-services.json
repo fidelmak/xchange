@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "123288802159",
+    "project_id": "xchange-401b8",
+    "storage_bucket": "xchange-401b8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:123288802159:android:30c6a65c87a97769c20e9a",
+        "android_client_info": {
+          "package_name": "com.example.xchange"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCHvOXLP11pKkRB5ddyCYWsNpNeilBSIc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

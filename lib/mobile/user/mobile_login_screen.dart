@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:supabase/supabase.dart';
 import 'package:xchange/mobile/user/register.dart';
 
+import '../../main.dart';
 import '../auth/auth_service.dart';
 import '../const.dart';
 import '../widgets/my_text_button.dart';
@@ -11,6 +13,7 @@ class MobileLoginScreen extends StatefulWidget {
   const MobileLoginScreen({
     super.key,
   });
+
   static String id = "MobileLoginScreen";
 
   @override
@@ -127,24 +130,7 @@ class _MobileLoginScreenState extends State<MobileLoginScreen> {
                 width: 300,
                 height: 45,
                 child: TextButton(
-                  onPressed: () async {
-                    final message = await AuthService().login(
-                      email: emailController.text,
-                      password: passwordController.text,
-                    );
-                    if (message!.contains('Success')) {
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (context) => const Home(),
-                        ),
-                      );
-                    }
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(message),
-                      ),
-                    );
-                  },
+                  onPressed: () async {},
                   child: Text(
                     "LOGIN",
                     style: TextStyle(color: backgroundColor, fontSize: 16),

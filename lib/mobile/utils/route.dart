@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:xchange/main.dart';
 import 'package:xchange/mobile/const.dart';
 import 'package:xchange/mobile/screens/home_page.dart';
 
@@ -14,6 +15,6 @@ final Map<String, WidgetBuilder> routes = {
         ),
       ),
   Login.id: (context) => const Login(),
-  MobileLoginScreen.id: (context) => const MobileLoginScreen(),
+  MobileLoginScreen.id: (context) => MobileLoginScreen(),
   MobileRegisterScreen.id: (context) => const MobileRegisterScreen(),
 };

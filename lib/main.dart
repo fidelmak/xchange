@@ -1,15 +1,17 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:xchange/desktop/desktop_page.dart';
 import 'package:xchange/mobile/const.dart';
-import 'firebase_options.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'mobile/mobile_page.dart';
 import 'mobile/utils/route.dart';
 import 'welcome_page.dart';
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+void main() {
+  Supabase.initialize(
+    url: 'https://your-project-id.supabase.co',
+    anonKey: 'your-anonymous-key',
+  );
 
   runApp(MyApp());
 }

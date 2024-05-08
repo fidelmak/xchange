@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:xchange/main.dart';
 
 import '../const.dart';
 import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';

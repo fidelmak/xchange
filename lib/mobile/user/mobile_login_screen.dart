@@ -30,33 +30,32 @@ class _MobileLoginScreenState extends State<MobileLoginScreen> {
   final TextEditingController passwordController = TextEditingController();
   bool _isLoading = false;
 
-  Future<void> _login(email, password) async {
+  Future<void> _login(String email, String password) async {
     setState(() {
       _isLoading = true;
     });
 
     try {
       final User user = (await Supabase.instance.client.auth.signInWithPassword(
-        email: emailController.text,
-        password: passwordController.text,
+        email: email,
+        password: password,
       )) as User;
 
       if (user != null) {
         // Login successful, navigate to home or other screen
         Navigator.pushReplacementNamed(context, '/home');
       } else {
-        // Login failed, show error message
+        // Login failed, handle specific Supabase errors
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Login failed!'),
           ),
         );
       }
-    } catch (error) {
-      // Handle errors
+    } on Exception catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Error: ${error.toString()}'),
+          content: Text('An error occurred: ${error.toString()}'),
         ),
       );
     } finally {
@@ -174,7 +173,7 @@ class _MobileLoginScreenState extends State<MobileLoginScreen> {
                 height: 45,
                 child: TextButton(
                   onPressed: () async {
-                    _login(emailController, passwordController);
+                    _login(emailController.text, passwordController.text);
                     // s.signIn(passwordController.text);
                   },
                   child: Text(

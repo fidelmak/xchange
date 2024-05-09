@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:supabase/supabase.dart';
 
+import '../auth/auth_service.dart';
 import '../const.dart';
 import '../widgets/my_text_button.dart';
 import 'mobile_login_screen.dart';
 
-class MobileRegisterScreen extends StatelessWidget {
+SupabaseManager s = SupabaseManager();
+
+class MobileRegisterScreen extends StatefulWidget {
   const MobileRegisterScreen({
     super.key,
   });
   static String id = "MobileRegisterScreen";
+
+  @override
+  State<MobileRegisterScreen> createState() => _MobileRegisterScreenState();
+}
+
+class _MobileRegisterScreenState extends State<MobileRegisterScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -95,9 +107,10 @@ class MobileRegisterScreen extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            const MyTextButton(
+            MyTextButton(
               hint: 'Ben@gmail.com',
               obscure: false,
+              controller: emailController,
             ),
             SizedBox(
               height: 20,
@@ -109,9 +122,10 @@ class MobileRegisterScreen extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            const MyTextButton(
+            MyTextButton(
               hint: 'Mypassword123@',
               obscure: true,
+              controller: passwordController,
             ),
             SizedBox(
               height: 50,

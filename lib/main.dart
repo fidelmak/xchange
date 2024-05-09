@@ -7,11 +7,8 @@ import 'mobile/mobile_page.dart';
 import 'mobile/utils/route.dart';
 import 'welcome_page.dart';
 
-void main() {
-  Supabase.initialize(
-    url: 'https://your-project-id.supabase.co',
-    anonKey: 'your-anonymous-key',
-  );
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
   runApp(MyApp());
 }

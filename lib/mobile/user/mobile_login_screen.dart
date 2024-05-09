@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase/supabase.dart';
+import 'package:supabase/supabase.dart';
+
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:xchange/mobile/user/register.dart';
 
 import '../../main.dart';
@@ -8,6 +11,8 @@ import '../auth/auth_service.dart';
 import '../const.dart';
 import '../widgets/my_text_button.dart';
 import 'home.dart';
+
+SupabaseManager s = SupabaseManager();
 
 class MobileLoginScreen extends StatefulWidget {
   const MobileLoginScreen({
@@ -23,6 +28,7 @@ class MobileLoginScreen extends StatefulWidget {
 class _MobileLoginScreenState extends State<MobileLoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,7 +136,9 @@ class _MobileLoginScreenState extends State<MobileLoginScreen> {
                 width: 300,
                 height: 45,
                 child: TextButton(
-                  onPressed: () async {},
+                  onPressed: () async {
+                    s.signIn(passwordController.text);
+                  },
                   child: Text(
                     "LOGIN",
                     style: TextStyle(color: backgroundColor, fontSize: 16),

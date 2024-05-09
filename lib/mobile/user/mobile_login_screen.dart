@@ -1,7 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase/supabase.dart';
 import 'package:supabase/supabase.dart';
+import 'package:gotrue/src/types/user.dart' as supabase_user;
 
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:xchange/mobile/user/register.dart';
@@ -28,6 +28,43 @@ class MobileLoginScreen extends StatefulWidget {
 class _MobileLoginScreenState extends State<MobileLoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  bool _isLoading = false;
+
+  Future<void> _login(email, password) async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final User user = (await Supabase.instance.client.auth.signInWithPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      )) as User;
+
+      if (user != null) {
+        // Login successful, navigate to home or other screen
+        Navigator.pushReplacementNamed(context, '/home');
+      } else {
+        // Login failed, show error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Login failed!'),
+          ),
+        );
+      }
+    } catch (error) {
+      // Handle errors
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: ${error.toString()}'),
+        ),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -137,7 +174,8 @@ class _MobileLoginScreenState extends State<MobileLoginScreen> {
                 height: 45,
                 child: TextButton(
                   onPressed: () async {
-                    s.signIn(passwordController.text);
+                    _login(emailController, passwordController);
+                    // s.signIn(passwordController.text);
                   },
                   child: Text(
                     "LOGIN",

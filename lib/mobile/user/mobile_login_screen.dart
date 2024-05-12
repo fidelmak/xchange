@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:supabase/supabase.dart';
-import 'package:supabase/supabase.dart';
-import 'package:gotrue/src/types/user.dart' as supabase_user;
 
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:supabase_flutter/supabase_flutter.dart'; // For Supabase integration
+import 'package:xchange/mobile/screens/home_page.dart'; // Import HomePage
+import 'package:xchange/mobile/user/login.dart';
 import 'package:xchange/mobile/user/register.dart';
 
-import '../../main.dart';
-import '../auth/auth_service.dart';
 import '../const.dart';
-import '../widgets/my_text_button.dart';
-import 'home.dart';
-
-SupabaseManager s = SupabaseManager();
+import '../widgets/my_text_button.dart'; // Import Register screen
 
 class MobileLoginScreen extends StatefulWidget {
   const MobileLoginScreen({
@@ -28,22 +22,41 @@ class MobileLoginScreen extends StatefulWidget {
 class _MobileLoginScreenState extends State<MobileLoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  bool _isLoading = false;
+  bool showSpinner = false;
 
-  Future<void> _login(String email, String password) async {
-    setState(() {
-      _isLoading = true;
-    });
+  Future<void> login(String e, String p) async {
+    if (e.isEmpty || p.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Please enter username and password.'),
+      ));
+      return;
+    }
+
+    showDialog(
+      context: context,
+      barrierDismissible: false, // Prevent user from dismissing dialog
+      builder: (BuildContext context) {
+        return Dialog(
+          child: SizedBox(
+            height: 100,
+            child: Center(
+              child: CircularProgressIndicator(), // Spinning progress indicator
+            ),
+          ),
+        );
+      },
+    );
 
     try {
-      final User user = (await Supabase.instance.client.auth.signInWithPassword(
-        email: email,
-        password: password,
-      )) as User;
+      final user = await Supabase.instance.client.auth.signInWithPassword(
+        email: e,
+        password: p,
+      );
 
       if (user != null) {
+        Navigator.pop(context); // Dismiss the dialog
         // Login successful, navigate to home or other screen
-        Navigator.pushReplacementNamed(context, '/home');
+        Navigator.pushNamed(context, HomePage.id);
       } else {
         // Login failed, handle specific Supabase errors
         ScaffoldMessenger.of(context).showSnackBar(
@@ -52,16 +65,15 @@ class _MobileLoginScreenState extends State<MobileLoginScreen> {
           ),
         );
       }
-    } on Exception catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('An error occurred: ${error.toString()}'),
-        ),
-      );
-    } finally {
+      Navigator.pushNamed(context, HomePage.id);
+    } catch (e) {
+      print(e);
       setState(() {
-        _isLoading = false;
+        Navigator.pop(context);
       });
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Incorrect username or password.'),
+      ));
     }
   }
 
@@ -172,9 +184,8 @@ class _MobileLoginScreenState extends State<MobileLoginScreen> {
                 width: 300,
                 height: 45,
                 child: TextButton(
-                  onPressed: () async {
-                    _login(emailController.text, passwordController.text);
-                    // s.signIn(passwordController.text);
+                  onPressed: () {
+                    login(emailController.text, passwordController.text);
                   },
                   child: Text(
                     "LOGIN",

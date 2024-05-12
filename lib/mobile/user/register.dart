@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:supabase/supabase.dart';
 
-import '../auth/auth_service.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 import '../const.dart';
+import '../screens/home_page.dart';
 import '../widgets/my_text_button.dart';
 import 'mobile_login_screen.dart';
-
-SupabaseManager s = SupabaseManager();
 
 class MobileRegisterScreen extends StatefulWidget {
   const MobileRegisterScreen({
@@ -21,6 +20,58 @@ class MobileRegisterScreen extends StatefulWidget {
 class _MobileRegisterScreenState extends State<MobileRegisterScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  Future<void> signUp(String e, String p) async {
+    if (e.isEmpty || p.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Please enter username and password to sign up.'),
+      ));
+      return;
+    }
+
+    showDialog(
+      context: context,
+      barrierDismissible: false, // Prevent user from dismissing dialog
+      builder: (BuildContext context) {
+        return Dialog(
+          child: SizedBox(
+            height: 100,
+            child: Center(
+              child: CircularProgressIndicator(), // Spinning progress indicator
+            ),
+          ),
+        );
+      },
+    );
+
+    try {
+      final user = await Supabase.instance.client.auth.signUp(
+        email: e,
+        password: p,
+      );
+
+      if (user != null) {
+        Navigator.pop(context); // Dismiss the dialog
+        // Login successful, navigate to home or other screen
+        Navigator.pushNamed(context, HomePage.id);
+      } else {
+        // Login failed, handle specific Supabase errors
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Sign-Up failed!'),
+          ),
+        );
+      }
+      Navigator.pushNamed(context, HomePage.id);
+    } catch (e) {
+      print(e);
+      setState(() {
+        Navigator.pop(context);
+      });
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('username  exist.'),
+      ));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +194,9 @@ class _MobileRegisterScreenState extends State<MobileRegisterScreen> {
                 width: 300,
                 height: 45,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    signUp(emailController.text, passwordController.text);
+                  },
                   child: Text(
                     "Register",
                     style: TextStyle(color: backgroundColor, fontSize: 16),

@@ -21,6 +21,7 @@ class MyTextButton extends StatelessWidget {
       child: SizedBox(
         height: 50,
         child: TextField(
+          controller: controller,
           obscureText: obscure,
           decoration: InputDecoration(
             hintText: hint,

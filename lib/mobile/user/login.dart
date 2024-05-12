@@ -35,7 +35,6 @@ class _LoginState extends State<Login> {
       }
       // mobile screen
       return MobileLoginScreen();
-      ;
     });
   }
 }

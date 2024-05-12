@@ -4,7 +4,7 @@ import '../widgets/action_tabs.dart';
 import '../widgets/card_right.dart';
 import '../widgets/card_tag.dart';
 import '../widgets/new.dart';
-import '../widgets/price.dart';
+
 import '../widgets/update_price.dart';
 
 class HomePage extends StatefulWidget {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import '../user/login.dart';
+import '../../mobile_page.dart';
 
-class NavBarMenu extends StatelessWidget {
-  const NavBarMenu({super.key});
+class UserNav extends StatelessWidget {
+  const UserNav({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +21,9 @@ class NavBarMenu extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                Navigator.pushNamed(context, Login.id);
+                Navigator.pushNamed(context, MobileScreenLayout.id);
               },
-              child: Text('Sign in / Register'),
+              child: Text('Logout'),
             ),
           ],
         ),

@@ -1,19 +1,88 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../../main.dart';
+import '../const.dart';
+import '../screens/home_page.dart';
+import '../widgets/bottom_bar.dart';
+import '../widgets/my_app_bar.dart';
+import 'widgets/user_nav.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
+  static String id = "Home";
 
   @override
   State<Home> createState() => _HomeState();
 }
 
+String getUserEmailFromSupabase(SupabaseClient supabase) {
+  // Check if a user is signed in
+
+  // Get the user object (handle potential errors)
+  try {
+    final user = supabase.auth.currentUser!.id;
+    return user; // Use informative message
+  } catch (error) {
+    print("Error getting user email: $error");
+    return "l o a d i n g..."; // Informative error message
+  }
+}
+
+final supabase = SupabaseClient(supabaseUrl, supabaseKey);
+final userEmail = getUserEmailFromSupabase(supabase);
+
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text("welcome"),
+    return Center(
+        child: Scaffold(
+      appBar: AppBar(
+        title: UserNav(),
+        backgroundColor: Colors.transparent,
       ),
-    );
+      backgroundColor: backgroundColor,
+      body: SafeArea(
+          child: Center(
+        child: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Container(
+                    height: 100,
+                    child: Image(image: AssetImage("assets/images/wall.jpg"))),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                userEmail,
+                style: TextStyle(color: Colors.red, fontSize: 10),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              ElevatedButton(onPressed: () {}, child: Text("create a wallet")),
+              SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                onPressed: () {},
+                child: Text(
+                  "import  wallet phrase",
+                  style: TextStyle(color: Colors.white),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                ),
+              )
+            ],
+          ),
+        ),
+      )),
+    ));
   }
 }

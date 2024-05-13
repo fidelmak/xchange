@@ -7,7 +7,7 @@ import 'widgets/bottom_bar.dart';
 
 class MobileScreenLayout extends StatelessWidget {
   const MobileScreenLayout({super.key});
-
+  static String id = "mobilehome";
   @override
   Widget build(BuildContext context) {
     return Center(

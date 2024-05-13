@@ -6,7 +6,8 @@ import 'package:xchange/mobile/user/login.dart';
 import 'package:xchange/mobile/user/register.dart';
 
 import '../const.dart';
-import '../widgets/my_text_button.dart'; // Import Register screen
+import '../widgets/my_text_button.dart';
+import 'home.dart'; // Import Register screen
 
 class MobileLoginScreen extends StatefulWidget {
   const MobileLoginScreen({
@@ -65,7 +66,7 @@ class _MobileLoginScreenState extends State<MobileLoginScreen> {
           ),
         );
       }
-      Navigator.pushNamed(context, HomePage.id);
+      Navigator.pushNamed(context, Home.id);
     } catch (e) {
       print(e);
       setState(() {

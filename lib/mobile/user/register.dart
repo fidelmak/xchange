@@ -52,7 +52,7 @@ class _MobileRegisterScreenState extends State<MobileRegisterScreen> {
       if (user != null) {
         Navigator.pop(context); // Dismiss the dialog
         // Login successful, navigate to home or other screen
-        Navigator.pushNamed(context, HomePage.id);
+        Navigator.pushNamed(context, MobileLoginScreen.id);
       } else {
         // Login failed, handle specific Supabase errors
         ScaffoldMessenger.of(context).showSnackBar(
@@ -61,7 +61,7 @@ class _MobileRegisterScreenState extends State<MobileRegisterScreen> {
           ),
         );
       }
-      Navigator.pushNamed(context, HomePage.id);
+      Navigator.pushNamed(context, MobileLoginScreen.id);
     } catch (e) {
       print(e);
       setState(() {

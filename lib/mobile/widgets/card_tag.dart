@@ -7,11 +7,12 @@ class CardTag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Size screenSize = MediaQuery.of(context).size;
     return ClipRRect(
       borderRadius: BorderRadius.circular(15),
       child: Container(
         height: 380,
-        width: 200,
+        width: screenSize.width * 0.4,
         color: cardColor,
         child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -109,7 +110,8 @@ class CardTag extends StatelessWidget {
                       child: SizedBox(
                           width: 200,
                           height: 150,
-                          child: Image(image: AssetImage("images/nft2.png"))),
+                          child: Image(
+                              image: AssetImage("assets/images/nft2.png"))),
                     )
                   ],
                 ),

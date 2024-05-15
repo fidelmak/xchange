@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:xchange/mobile/user/provider/import_wallet.dart';
+import 'package:xchange/mobile/user/provider/wallet_provider.dart';
 
 import '../../main.dart';
 import '../const.dart';
 import '../screens/home_page.dart';
 import '../widgets/bottom_bar.dart';
 import '../widgets/my_app_bar.dart';
+import 'provider/generate_phrase.dart';
 import 'widgets/user_nav.dart';
 
 class Home extends StatefulWidget {
@@ -65,7 +68,30 @@ class _HomeState extends State<Home> {
               SizedBox(
                 height: 10,
               ),
-              ElevatedButton(onPressed: () {}, child: Text("create a wallet")),
+              ElevatedButton(
+                  onPressed: () async {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => GenerateMnemonicPage()),
+                    );
+                    //Navigator.pushNamed(context, GenerateMnemonicPage.id);
+                    //WalletService().generateWallet();
+
+                    // final mneumonic = WalletService().generateMnemonic();
+                    // final privatekey =
+                    //     await WalletService().getPrivateKey(mneumonic);
+                    // final address =
+                    //     await WalletService().getPublicKey(privatekey);
+                    // //WalletProvider().getPublicKey(privatekey).toString();
+
+                    // print(" text ${mneumonic}");
+                    // print(" text ${address}");
+                    // print("_* " * 10);
+                    // final vari = WalletService().gen();
+                    // print(vari);
+                  },
+                  child: Text("create a wallet")),
               SizedBox(
                 height: 20,
               ),

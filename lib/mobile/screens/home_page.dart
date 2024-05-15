@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../user/provider/wallet_provider.dart';
 import '../widgets/action_tabs.dart';
 import '../widgets/card_right.dart';
 import '../widgets/card_tag.dart';

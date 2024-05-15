@@ -51,6 +51,11 @@ dependencies:
   supabase: ^2.1.2
   supabase_flutter: ^2.5.2
   modal_progress_hud_nsn: ^0.5.1
+  web3dart: ^2.7.3
+  bip39: ^1.0.6
+  hex: ^0.2.0
+  ed25519_hd_key: ^2.2.1
+  provider: ^6.1.2
   
 
 dev_dependencies:

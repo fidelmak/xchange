@@ -27,7 +27,7 @@ class BottomNav extends StatelessWidget {
               IconButton(
                   onPressed: () {},
                   icon: Icon(Icons.tram_rounded, color: Colors.grey)),
-              Text('Trade')
+              Text('Trade'),
             ],
           ),
           Column(
@@ -35,7 +35,7 @@ class BottomNav extends StatelessWidget {
               IconButton(
                   onPressed: () {},
                   icon: Icon(Icons.upcoming_sharp, color: Colors.grey)),
-              Text('Futures')
+              Text('Futures'),
             ],
           ),
           Column(
@@ -43,7 +43,7 @@ class BottomNav extends StatelessWidget {
               IconButton(
                   onPressed: () {},
                   icon: Icon(Icons.wallet, color: Colors.grey)),
-              Text('Wallets')
+              Text('Wallets'),
             ],
           ),
         ],

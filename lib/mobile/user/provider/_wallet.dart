@@ -104,9 +104,7 @@ class _WalletPageState extends State<WalletPage> {
                 const SizedBox(height: 16.0),
                 Text(
                   balance,
-                  style: const TextStyle(
-                    fontSize: 20.0,
-                  ),
+                  style: const TextStyle(fontSize: 20.0, color: Colors.white),
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -127,7 +125,9 @@ class _WalletPageState extends State<WalletPage> {
                       //           SendTokensPage(privateKey: pvKey)),
                       // );
                     },
-                    child: const Icon(Icons.send),
+                    child: const Icon(
+                      Icons.send,
+                    ),
                   ),
                   const SizedBox(height: 8.0),
                   const Text('Send'),
@@ -142,7 +142,9 @@ class _WalletPageState extends State<WalletPage> {
                         // Update any necessary state variables or perform any actions to refresh the widget
                       });
                     },
-                    child: const Icon(Icons.replay_outlined),
+                    child: const Icon(
+                      Icons.replay_outlined,
+                    ),
                   ),
                   const SizedBox(height: 8.0),
                   const Text('Refresh'),

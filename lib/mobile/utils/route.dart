@@ -24,4 +24,5 @@ final Map<String, WidgetBuilder> routes = {
   Home.id: (context) => const Home(),
   MobileScreenLayout.id: (context) => const MobileScreenLayout(),
   GenerateMnemonicPage.id: (context) => const GenerateMnemonicPage(),
+  ImportWallet.id: (context) => const ImportWallet(),
 };

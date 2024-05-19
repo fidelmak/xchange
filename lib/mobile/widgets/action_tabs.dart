@@ -51,7 +51,7 @@ class ActionBar extends StatelessWidget {
               IconButton(
                   onPressed: () {},
                   icon: Icon(Icons.headset, color: Colors.green)),
-              Text('Chat')
+              const Text('Chat')
             ],
           ),
         ],

@@ -96,7 +96,9 @@ class _HomeState extends State<Home> {
                 height: 20,
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, ImportWallet.id);
+                },
                 child: Text(
                   "import  wallet phrase",
                   style: TextStyle(color: Colors.white),

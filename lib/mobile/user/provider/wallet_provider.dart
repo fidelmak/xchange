@@ -7,8 +7,6 @@ import 'package:bip39/bip39.dart' as bip39;
 import 'package:ed25519_hd_key/ed25519_hd_key.dart';
 import 'package:hex/hex.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:pointycastle/pointycastle.dart';
-import 'package:convert/convert.dart';
 
 abstract class WalletAddressServices {
   String generateMnemonic();

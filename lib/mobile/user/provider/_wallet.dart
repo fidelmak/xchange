@@ -8,6 +8,7 @@ import 'dart:convert';
 import '../../const.dart';
 import '../../utils/get_balance.dart';
 import '../widgets/nft_listing.dart';
+import 'get_ballance.dart';
 import 'wallet_provider.dart';
 
 class WalletPage extends StatefulWidget {
@@ -15,12 +16,16 @@ class WalletPage extends StatefulWidget {
 
   @override
   _WalletPageState createState() => _WalletPageState();
+  final String apiKey =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6ImEzOWQ4MWZhLWIwODktNDdjNy1hMjViLWY1OGU5YzdhNjNhMSIsIm9yZ0lkIjoiMzkyODM2IiwidXNlcklkIjoiNDAzNjUwIiwidHlwZUlkIjoiOGJiNjQwNmEtNDg5OC00OWZiLWJjOTctNWNjNjQwNDBiNTk3IiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3MTYxMDc4NDksImV4cCI6NDg3MTg2Nzg0OX0.b_GLg-1zhNVgN49Kqp8_5ahu-w_JymmuMtjMBmRmu84';
+  final String baseUrl = 'https://deep-index.moralis.io/api/v2';
 }
 
 class _WalletPageState extends State<WalletPage> {
   String walletAddress = '';
   String balance = '';
   String pvKey = '';
+  final MoralisService moralisService = MoralisService();
 
   @override
   void initState() {
@@ -71,10 +76,10 @@ class _WalletPageState extends State<WalletPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            height: MediaQuery.of(context).size.height * 0.4,
+            height: MediaQuery.of(context).size.height * 0.5,
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            child: ListView(
+              //mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
                   'Wallet Address',
@@ -106,6 +111,17 @@ class _WalletPageState extends State<WalletPage> {
                   balance,
                   style: const TextStyle(fontSize: 20.0, color: Colors.white),
                   textAlign: TextAlign.center,
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    try {
+                      await moralisService.getSepoliaBalance(
+                          '0x9df19f2f103677baecb1f789a3723ffa73f4b3dd');
+                    } catch (e) {
+                      print(e);
+                    }
+                  },
+                  child: Text('Get Native Balance'),
                 ),
               ],
             ),
@@ -153,85 +169,6 @@ class _WalletPageState extends State<WalletPage> {
             ],
           ),
           const SizedBox(height: 30.0),
-          Expanded(
-            child: DefaultTabController(
-              length: 3,
-              child: Column(
-                children: [
-                  const TabBar(
-                    labelColor: Color.fromARGB(255, 2, 82, 5),
-                    tabs: [
-                      Tab(text: 'Assets'),
-                      Tab(text: 'NFTs'),
-                      Tab(text: 'Options'),
-                    ],
-                  ),
-                  Expanded(
-                    child: TabBarView(
-                      children: [
-                        // Assets Tab
-                        Column(
-                          children: [
-                            Card(
-                              margin: const EdgeInsets.all(16.0),
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text(
-                                      'Sepolia ETH',
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text(
-                                      balance,
-                                      style: const TextStyle(
-                                        fontSize: 24.0,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        // NFTs Tab
-                        SingleChildScrollView(
-                            child: NFTListPage(
-                                address: walletAddress, chain: 'sepolia')),
-                        // Activities Tab
-                        Center(
-                          child: ListTile(
-                            leading: const Icon(Icons.logout),
-                            title: const Text('Logout'),
-                            onTap: () async {
-                              SharedPreferences prefs =
-                                  await SharedPreferences.getInstance();
-                              await prefs.remove('privateKey');
-                              // ignore: use_build_context_synchronously
-                              // Navigator.pushAndRemoveUntil(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (context) =>
-                              //         const CreateOrImportPage(),
-                              //   ),
-                              //   (route) => false,
-                              // );
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
         ],
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:xchange/mobile/user/provider/import_wallet.dart';
 import 'package:xchange/mobile/user/provider/wallet_provider.dart';
@@ -33,10 +34,10 @@ String getUserEmailFromSupabase(SupabaseClient supabase) {
   }
 }
 
-final supabase = SupabaseClient(supabaseUrl, supabaseKey);
-final userEmail = getUserEmailFromSupabase(supabase);
-
 class _HomeState extends State<Home> {
+  final _supabase = Supabase.instance.client;
+  String _username = '';
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -62,7 +63,7 @@ class _HomeState extends State<Home> {
                 height: 10,
               ),
               Text(
-                userEmail,
+                _username,
                 style: TextStyle(color: Colors.red, fontSize: 10),
               ),
               SizedBox(

@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -5,6 +9,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../const.dart';
 import '../screens/home_page.dart';
 import '../widgets/my_text_button.dart';
+import 'home.dart';
 import 'mobile_login_screen.dart';
 
 class MobileRegisterScreen extends StatefulWidget {
@@ -20,10 +25,48 @@ class MobileRegisterScreen extends StatefulWidget {
 class _MobileRegisterScreenState extends State<MobileRegisterScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  Future<void> signUp(String e, String p) async {
+  final _supabase = Supabase.instance.client;
+//................................................................
+
+  Future<void> _register(String e, String p) async {
+    String username = emailController.text.trim();
+    String password = passwordController.text.trim();
+
+    // validate
+
+    try {
+      var headers = {'Content-Type': 'application/json'};
+      var data = json.encode({
+        "username": username,
+        "password": password,
+      });
+
+      var response = await http.post(
+        Uri.parse('https://fidelmak.pythonanywhere.com/signup/'),
+        headers: headers,
+        body: data,
+      );
+
+      // check if success
+      if (response.statusCode == 200) {
+        print('Status code: ${response.statusCode}');
+        print('Response data: ${response.body}');
+      } else {
+        // if not
+        print('Status code: ${response.statusCode}');
+        print('Response data: ${response.body}');
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+//.............................................................
+//........................................................................
+
+  Future<void> signIn(String e, String p) async {
     if (e.isEmpty || p.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Please enter username and password to sign up.'),
+        content: Text('Please enter username and password.'),
       ));
       return;
     }
@@ -52,27 +95,28 @@ class _MobileRegisterScreenState extends State<MobileRegisterScreen> {
       if (user != null) {
         Navigator.pop(context); // Dismiss the dialog
         // Login successful, navigate to home or other screen
-        Navigator.pushNamed(context, MobileLoginScreen.id);
+        Navigator.pushNamed(context, HomePage.id);
       } else {
         // Login failed, handle specific Supabase errors
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Sign-Up failed!'),
+            content: Text('SignUp failed!'),
           ),
         );
       }
-      Navigator.pushNamed(context, MobileLoginScreen.id);
+      Navigator.pushNamed(context, Home.id);
     } catch (e) {
       print(e);
       setState(() {
         Navigator.pop(context);
       });
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('username  exist.'),
+        content: Text('user exist.'),
       ));
     }
   }
 
+//''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -195,7 +239,8 @@ class _MobileRegisterScreenState extends State<MobileRegisterScreen> {
                 height: 45,
                 child: TextButton(
                   onPressed: () {
-                    signUp(emailController.text, passwordController.text);
+                    _register(emailController.text, passwordController.text);
+                    signIn(emailController.text, passwordController.text);
                   },
                   child: Text(
                     "Register",

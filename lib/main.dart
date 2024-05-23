@@ -10,10 +10,10 @@ import 'mobile/user/provider/import_wallet.dart';
 import 'mobile/utils/route.dart';
 import 'welcome_page.dart';
 
-const supabaseUrl = 'https://cshtceayuqakjbnariuy.supabase.co';
+const supabaseUrl = 'https://pypzomuumotikjpxkntc.supabase.co';
 const supabaseKey =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzaHRjZWF5dXFha2pibmFyaXV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTUxMTI5MzcsImV4cCI6MjAzMDY4ODkzN30.oAR58SzAHaQHY2psne3AYxGt5BVIuHMxeO9HcDhIyyI";
-
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB5cHpvbXV1bW90aWtqcHhrbnRjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTY0ODIzNDAsImV4cCI6MjAzMjA1ODM0MH0.G3C5MobcafTdDSTRiliHbidUpcgARjy4II1t26w-j7Y";
+//final supabaseClient = SupabaseClient(supabaseUrl, supabaseKey);
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Supabase.initialize(url: supabaseUrl, anonKey: supabaseKey);
@@ -21,7 +21,6 @@ Future<void> main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => WalletService()),
         ChangeNotifierProvider(create: (context) => WalletProvider())
       ],
       child: MyApp(),

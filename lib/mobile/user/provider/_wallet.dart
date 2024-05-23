@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:web3dart/web3dart.dart';
 
@@ -23,9 +24,10 @@ class WalletPage extends StatefulWidget {
 
 class _WalletPageState extends State<WalletPage> {
   String walletAddress = '';
-  String balance = '';
+  String balance = '0';
   String pvKey = '';
   final MoralisService moralisService = MoralisService();
+  final add = WalletProvider().variables;
 
   @override
   void initState() {
@@ -40,6 +42,7 @@ class _WalletPageState extends State<WalletPage> {
       final walletProvider = WalletProvider();
       await walletProvider.loadPrivateKey();
       EthereumAddress address = await walletProvider.getPublicKey(privateKey);
+
       print(address.hex);
       setState(() {
         walletAddress = address.hex;
@@ -61,6 +64,22 @@ class _WalletPageState extends State<WalletPage> {
       });
     }
   }
+
+  // Future<String> getBalances(String address, String network) async {
+  //   final String apiKey =
+  //       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6ImEzOWQ4MWZhLWIwODktNDdjNy1hMjViLWY1OGU5YzdhNjNhMSIsIm9yZ0lkIjoiMzkyODM2IiwidXNlcklkIjoiNDAzNjUwIiwidHlwZUlkIjoiOGJiNjQwNmEtNDg5OC00OWZiLWJjOTctNWNjNjQwNDBiNTk3IiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3MTYxMDc4NDksImV4cCI6NDg3MTg2Nzg0OX0.b_GLg-1zhNVgN49Kqp8_5ahu-w_JymmuMtjMBmRmu84';
+  //   final String baseUrl = 'https://deep-index.moralis.io/api/v2';
+  //   // Implement this method to fetch the balance from your API
+  //   // This is just a placeholder example
+  //   final url = Uri.parse('$baseUrl/$address/balance?chain=$network');
+  //   final response = await http.get(url);
+
+  //   if (response.statusCode == 200) {
+  //     return response.body;
+  //   } else {
+  //     throw Exception('Failed to load balance');
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -109,19 +128,23 @@ class _WalletPageState extends State<WalletPage> {
                 const SizedBox(height: 16.0),
                 Text(
                   balance,
-                  style: const TextStyle(fontSize: 20.0, color: Colors.white),
+                  style: const TextStyle(fontSize: 50.0, color: Colors.white),
                   textAlign: TextAlign.center,
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    try {
-                      await moralisService.getSepoliaBalance(
-                          '0x9df19f2f103677baecb1f789a3723ffa73f4b3dd');
-                    } catch (e) {
-                      print(e);
-                    }
+                    print(add);
+
+                    // getBalances(
+                    //     '0x9df19f2f103677baecb1f789a3723ffa73f4b3dd', "sepola");
+                    // try {
+                    //   await moralisService.getSepoliaBalance(
+                    //       '0x9df19f2f103677baecb1f789a3723ffa73f4b3dd');
+                    // } catch (e) {
+                    //   print(e);
+                    // }
                   },
-                  child: Text('Get Native Balance'),
+                  child: Text('Balance'),
                 ),
               ],
             ),

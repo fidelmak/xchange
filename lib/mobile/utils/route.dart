@@ -5,11 +5,13 @@ import 'package:xchange/mobile/screens/home_page.dart';
 import 'package:xchange/mobile/user/home.dart';
 
 import '../mobile_page.dart';
+import '../user/chat/userChat.dart';
 import '../user/login.dart';
 import '../user/mobile_login_screen.dart';
 import '../user/provider/generate_phrase.dart';
 import '../user/provider/import_wallet.dart';
 import '../user/register.dart';
+import '../user/userHome.dart';
 
 final Map<String, WidgetBuilder> routes = {
   HomePage.id: (context) => const Scaffold(
@@ -25,4 +27,6 @@ final Map<String, WidgetBuilder> routes = {
   MobileScreenLayout.id: (context) => const MobileScreenLayout(),
   GenerateMnemonicPage.id: (context) => const GenerateMnemonicPage(),
   ImportWallet.id: (context) => const ImportWallet(),
+  UserHome.id: (context) => const UserHome(),
+  ChatPage.id: (context) => const ChatPage(),
 };

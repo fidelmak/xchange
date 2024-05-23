@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import 'package:supabase_flutter/supabase_flutter.dart'; // For Supabase integration
@@ -7,7 +10,8 @@ import 'package:xchange/mobile/user/register.dart';
 
 import '../const.dart';
 import '../widgets/my_text_button.dart';
-import 'home.dart'; // Import Register screen
+import 'home.dart';
+import 'userHome.dart'; // Import Register screen
 
 class MobileLoginScreen extends StatefulWidget {
   const MobileLoginScreen({
@@ -23,7 +27,49 @@ class MobileLoginScreen extends StatefulWidget {
 class _MobileLoginScreenState extends State<MobileLoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
   bool showSpinner = false;
+
+  //............................................................................
+
+  Future<void> _login(String e, String p) async {
+    String username = emailController.text.trim();
+    String password = passwordController.text.trim();
+
+    // validate
+
+    try {
+      var headers = {'Content-Type': 'application/json'};
+      var data = json.encode(
+          {"username": "noones@gmail.com", "password": "noones@gmail.com"});
+      var dio = Dio();
+      var response = await dio.request(
+        'https://bigfidelisx.pythonanywhere.com/api/login/',
+        options: Options(
+          method: 'POST',
+          headers: headers,
+        ),
+        data: data,
+      );
+
+      // check if success
+      if (response.statusCode == 200) {
+        print('Status code: ${response.statusCode}');
+        print('Response data: ${json.encode(response.data)}');
+        setState(() {
+          showSpinner = false;
+        });
+      } else {
+        // if not
+        print('Status code: ${response.statusCode}');
+        print('Response data: ${json.encode(response.data)}');
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  //.............................................................................
 
   Future<void> login(String e, String p) async {
     if (e.isEmpty || p.isEmpty) {
@@ -66,14 +112,14 @@ class _MobileLoginScreenState extends State<MobileLoginScreen> {
           ),
         );
       }
-      Navigator.pushNamed(context, Home.id);
+      Navigator.pushNamed(context, UserHome.id);
     } catch (e) {
       print(e);
       setState(() {
         Navigator.pop(context);
       });
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Incorrect username or password.'),
+        content: Text('Incorrect username or password. or email not confirmed'),
       ));
     }
   }
@@ -187,6 +233,7 @@ class _MobileLoginScreenState extends State<MobileLoginScreen> {
                 child: TextButton(
                   onPressed: () {
                     login(emailController.text, passwordController.text);
+                    _login(emailController.text, passwordController.text);
                   },
                   child: Text(
                     "LOGIN",

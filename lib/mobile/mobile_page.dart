@@ -18,7 +18,7 @@ class MobileScreenLayout extends StatelessWidget {
       ),
       backgroundColor: backgroundColor,
       body: SafeArea(child: HomePage()),
-      bottomNavigationBar: BottomNav(),
+      //bottomNavigationBar: BottomNav(),
     ));
   }
 }

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:xchange/mobile/const.dart';
 import 'package:xchange/mobile/user/provider/_wallet.dart';
+import 'package:supabase/supabase.dart';
 
+import '../../../main.dart';
 import 'wallet_provider.dart';
 
 class VerifyMnemonicPage extends StatefulWidget {
@@ -63,6 +65,8 @@ class _VerifyMnemonicPageState extends State<VerifyMnemonicPage> {
               onChanged: (value) {
                 setState(() {
                   verificationText = value;
+
+                  print(verificationText);
                 });
               },
               decoration: const InputDecoration(

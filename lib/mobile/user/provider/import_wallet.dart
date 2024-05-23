@@ -31,6 +31,8 @@ class _ImportWalletState extends State<ImportWallet> {
 
       // Call the getPrivateKey function from the WalletProvider
       final privateKey = await walletProvider.getPrivateKey(verificationText);
+      print(privateKey);
+      print(verificationText);
 
       // Navigate to the WalletPage
       navigateToWalletPage();

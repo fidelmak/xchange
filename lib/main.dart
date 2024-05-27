@@ -6,6 +6,7 @@ import 'package:xchange/mobile/user/provider/wallet_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'mobile/mobile_page.dart';
+
 import 'mobile/user/provider/import_wallet.dart';
 import 'mobile/utils/route.dart';
 import 'welcome_page.dart';
@@ -19,12 +20,10 @@ Future<void> main() async {
   await Supabase.initialize(url: supabaseUrl, anonKey: supabaseKey);
 
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => WalletProvider())
-      ],
-      child: MyApp(),
-    ),
+    MultiProvider(providers: [
+      ChangeNotifierProvider(create: (context) => WalletProvider())
+    ], child:MyApp(),
+        ),
   );
 }
 

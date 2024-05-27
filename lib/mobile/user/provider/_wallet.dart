@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
-
-import 'package:web3dart/web3dart.dart';
-
 import 'dart:convert';
-
+import 'package:web3dart/web3dart.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart' as Path;
+import 'package:flutter/services.dart';
 import '../../const.dart';
 import '../../utils/get_balance.dart';
-import '../widgets/nft_listing.dart';
+import '../data/data.dart';
 import 'get_ballance.dart';
 import 'wallet_provider.dart';
 
@@ -17,17 +16,16 @@ class WalletPage extends StatefulWidget {
 
   @override
   _WalletPageState createState() => _WalletPageState();
-  final String apiKey =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6ImEzOWQ4MWZhLWIwODktNDdjNy1hMjViLWY1OGU5YzdhNjNhMSIsIm9yZ0lkIjoiMzkyODM2IiwidXNlcklkIjoiNDAzNjUwIiwidHlwZUlkIjoiOGJiNjQwNmEtNDg5OC00OWZiLWJjOTctNWNjNjQwNDBiNTk3IiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3MTYxMDc4NDksImV4cCI6NDg3MTg2Nzg0OX0.b_GLg-1zhNVgN49Kqp8_5ahu-w_JymmuMtjMBmRmu84';
+  final String apiKey = 'your_api_key';
   final String baseUrl = 'https://deep-index.moralis.io/api/v2';
 }
 
 class _WalletPageState extends State<WalletPage> {
   String walletAddress = '';
-  String balance = '0';
+  String balance = ' USD 0';
   String pvKey = '';
   final MoralisService moralisService = MoralisService();
-  final add = WalletProvider().variables;
+  TextEditingController _addressController = TextEditingController();
 
   @override
   void initState() {
@@ -44,11 +42,17 @@ class _WalletPageState extends State<WalletPage> {
       EthereumAddress address = await walletProvider.getPublicKey(privateKey);
 
       print(address.hex);
+
+      // Store the address in the database
+      final dbHelper = DatabaseHelper();
+      // await dbHelper.insertAddress(address.hex);
+
+      // Update state only once after all operations
       setState(() {
         walletAddress = address.hex;
         pvKey = privateKey;
       });
-      print(pvKey);
+
       String response = await getBalances(address.hex, 'sepolia');
       dynamic data = json.decode(response);
       String newBalance = data['balance'] ?? '0';
@@ -65,21 +69,57 @@ class _WalletPageState extends State<WalletPage> {
     }
   }
 
-  // Future<String> getBalances(String address, String network) async {
-  //   final String apiKey =
-  //       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6ImEzOWQ4MWZhLWIwODktNDdjNy1hMjViLWY1OGU5YzdhNjNhMSIsIm9yZ0lkIjoiMzkyODM2IiwidXNlcklkIjoiNDAzNjUwIiwidHlwZUlkIjoiOGJiNjQwNmEtNDg5OC00OWZiLWJjOTctNWNjNjQwNDBiNTk3IiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3MTYxMDc4NDksImV4cCI6NDg3MTg2Nzg0OX0.b_GLg-1zhNVgN49Kqp8_5ahu-w_JymmuMtjMBmRmu84';
-  //   final String baseUrl = 'https://deep-index.moralis.io/api/v2';
-  //   // Implement this method to fetch the balance from your API
-  //   // This is just a placeholder example
-  //   final url = Uri.parse('$baseUrl/$address/balance?chain=$network');
-  //   final response = await http.get(url);
+  void _copyAddressToClipboard() {
+    Clipboard.setData(ClipboardData(text: walletAddress));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Wallet address copied to clipboard')),
+    );
+    _showPasteAddressDialog();
+  }
 
-  //   if (response.statusCode == 200) {
-  //     return response.body;
-  //   } else {
-  //     throw Exception('Failed to load balance');
-  //   }
-  // }
+  void _showPasteAddressDialog() {
+    Future.delayed(Duration(seconds: 1), () {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Paste Address'),
+            content: TextFormField(
+              controller: _addressController,
+              decoration: InputDecoration(
+                labelText: ' Address',
+                hintText: 'your wallet address here',
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(''),
+              ),
+              TextButton(
+                onPressed: () async {
+                  String pastedAddress = _addressController.text;
+                  if (pastedAddress.isNotEmpty) {
+                    final dbHelper = DatabaseHelper();
+                    await dbHelper.insertAddress(pastedAddress);
+                    Navigator.of(context).pop();
+                    // Navigator.of(context).push(
+                    //   MaterialPageRoute(
+                    //     builder: (context) => AddressListPage(),
+                    //   ),
+                    // );
+                  }
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,108 +131,68 @@ class _WalletPageState extends State<WalletPage> {
           style: TextStyle(fontSize: 12.0, fontStyle: FontStyle.italic),
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height * 0.5,
-            padding: const EdgeInsets.all(16.0),
-            child: ListView(
-              //mainAxisAlignment: MainAxisAlignment.center,
+      body: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              balance,
+              style: const TextStyle(fontSize: 15.0, color: Colors.white),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16.0),
+            const Text(
+              'Wallet Address',
+              style: TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16.0),
+            GestureDetector(
+              onTap: _copyAddressToClipboard,
+              child: Text(
+                walletAddress,
+                style: const TextStyle(
+                  fontSize: 20.0,
+                  color: Color.fromARGB(
+                      255, 172, 213, 248), // Make the address look clickable
+                  decoration: TextDecoration.underline,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            const SizedBox(height: 36.0),
+            const SizedBox(height: 36.0),
+            const SizedBox(height: 36.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const Text(
-                  'Wallet Address',
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 16.0),
-                Text(
-                  walletAddress,
-                  style: const TextStyle(
-                    fontSize: 20.0,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 32.0),
-                const Text(
-                  'Balance',
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 16.0),
-                Text(
-                  balance,
-                  style: const TextStyle(fontSize: 50.0, color: Colors.white),
-                  textAlign: TextAlign.center,
+                ElevatedButton(
+                  onPressed: () {
+                    // Implement receive functionality here
+                  },
+                  child: const Text('Receive'),
                 ),
                 ElevatedButton(
-                  onPressed: () async {
-                    print(add);
-
-                    // getBalances(
-                    //     '0x9df19f2f103677baecb1f789a3723ffa73f4b3dd', "sepola");
-                    // try {
-                    //   await moralisService.getSepoliaBalance(
-                    //       '0x9df19f2f103677baecb1f789a3723ffa73f4b3dd');
-                    // } catch (e) {
-                    //   print(e);
-                    // }
+                  onPressed: () {
+                    // Implement send functionality here
                   },
-                  child: Text('Balance'),
+                  child: const Text('Swap Tokens'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    // Implement swap tokens functionality here
+                  },
+                  child: const Text('Send'),
                 ),
               ],
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Column(
-                children: [
-                  FloatingActionButton(
-                    heroTag: 'sendButton', // Unique tag for send button
-                    onPressed: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //       builder: (context) =>
-                      //           SendTokensPage(privateKey: pvKey)),
-                      // );
-                    },
-                    child: const Icon(
-                      Icons.send,
-                    ),
-                  ),
-                  const SizedBox(height: 8.0),
-                  const Text('Send'),
-                ],
-              ),
-              Column(
-                children: [
-                  FloatingActionButton(
-                    heroTag: 'refreshButton', // Unique tag for send button
-                    onPressed: () {
-                      setState(() {
-                        // Update any necessary state variables or perform any actions to refresh the widget
-                      });
-                    },
-                    child: const Icon(
-                      Icons.replay_outlined,
-                    ),
-                  ),
-                  const SizedBox(height: 8.0),
-                  const Text('Refresh'),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 30.0),
-        ],
+          ],
+        ),
       ),
     );
   }

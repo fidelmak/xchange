@@ -28,38 +28,6 @@ class _MobileRegisterScreenState extends State<MobileRegisterScreen> {
   final _supabase = Supabase.instance.client;
 //................................................................
 
-  Future<void> _register(String e, String p) async {
-    String username = emailController.text.trim();
-    String password = passwordController.text.trim();
-
-    // validate
-
-    try {
-      var headers = {'Content-Type': 'application/json'};
-      var data = json.encode({
-        "username": username,
-        "password": password,
-      });
-
-      var response = await http.post(
-        Uri.parse('https://fidelmak.pythonanywhere.com/signup/'),
-        headers: headers,
-        body: data,
-      );
-
-      // check if success
-      if (response.statusCode == 200) {
-        print('Status code: ${response.statusCode}');
-        print('Response data: ${response.body}');
-      } else {
-        // if not
-        print('Status code: ${response.statusCode}');
-        print('Response data: ${response.body}');
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
 //.............................................................
 //........................................................................
 
@@ -239,7 +207,6 @@ class _MobileRegisterScreenState extends State<MobileRegisterScreen> {
                 height: 45,
                 child: TextButton(
                   onPressed: () {
-                    _register(emailController.text, passwordController.text);
                     signIn(emailController.text, passwordController.text);
                   },
                   child: Text(

@@ -5,6 +5,7 @@ import 'package:xchange/mobile/user/provider/_wallet.dart';
 import 'package:supabase/supabase.dart';
 
 import '../../../main.dart';
+import '../data/data.dart';
 import 'wallet_provider.dart';
 
 class VerifyMnemonicPage extends StatefulWidget {

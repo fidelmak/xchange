@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_popup_card/flutter_popup_card.dart';
 import 'package:xchange/mobile/user/provider/_wallet.dart';
 
-import '../user/chat/userChat.dart';
+import '../user/data/address.dart';
 
 class BottomNav extends StatelessWidget {
   const BottomNav({super.key});
@@ -37,7 +37,10 @@ class BottomNav extends StatelessWidget {
             children: [
               IconButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, ChatPage.id);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AddressListPage()));
                   },
                   icon: Icon(Icons.upcoming_sharp, color: Colors.grey)),
               Text('Futures'),

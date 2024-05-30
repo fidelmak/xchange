@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:xchange/mobile/const.dart';
 
 class CryptoPricesWidget extends StatefulWidget {
   @override
@@ -38,13 +39,22 @@ class _CryptoPricesWidgetState extends State<CryptoPricesWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        _buildCryptoPrice('BTC/USDT', cryptoPrices['BTC'] ?? 0),
-        _buildCryptoPrice('ETH/USDT', cryptoPrices['ETH'] ?? 0),
-        _buildCryptoPrice('TRON/USDT', cryptoPrices['TRON'] ?? 0),
-      ],
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(25),
+      child: Container(
+        color: cardColor,
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _buildCryptoPrice('BTC/USDT', cryptoPrices['BTC'] ?? 0),
+              _buildCryptoPrice('ETH/USDT', cryptoPrices['ETH'] ?? 0),
+              _buildCryptoPrice('TRON/USDT', cryptoPrices['TRON'] ?? 0),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -70,9 +80,17 @@ class _CryptoPricesWidgetState extends State<CryptoPricesWidget> {
         Text(
           '${percentageChange.toStringAsFixed(2)}%',
           style: TextStyle(
-            color: percentageChange >= 0 ? Colors.red : Colors.green,
+            color: percentageChange <= 0 ? Colors.green : Colors.green,
           ),
         ),
+        ListTile(
+          leading: Icon(Icons.speaker),
+          title: Text("We currently offer access to flat currency"),
+          trailing: IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.menu_outlined),
+          ),
+        )
       ],
     );
   }

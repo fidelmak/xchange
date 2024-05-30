@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-const Color backgroundColor = Colors.black;
-const Color cardColor = Color.fromARGB(255, 15, 12, 0);
+Color backgroundColor = Color(0xFF121420);
+const Color cardColor = Color(0xFF1B1D2A);
 const Color textWhite = Colors.white;
 const Color textGrey = Colors.grey;
 const Color priColor = Colors.black87;

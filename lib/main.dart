@@ -20,14 +20,18 @@ Future<void> main() async {
   await Supabase.initialize(url: supabaseUrl, anonKey: supabaseKey);
 
   runApp(
-    MultiProvider(providers: [
-      ChangeNotifierProvider(create: (context) => WalletProvider())
-    ], child:MyApp(),
-        ),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => WalletProvider())
+      ],
+      child: const MyApp(),
+    ),
   );
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

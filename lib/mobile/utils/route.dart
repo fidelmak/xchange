@@ -14,7 +14,7 @@ import '../user/register.dart';
 import '../user/userHome.dart';
 
 final Map<String, WidgetBuilder> routes = {
-  HomePage.id: (context) => const Scaffold(
+  HomePage.id: (context) => Scaffold(
         backgroundColor: backgroundColor,
         body: SafeArea(
           child: HomePage(),

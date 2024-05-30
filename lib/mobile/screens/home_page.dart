@@ -6,6 +6,7 @@ import '../widgets/card_right.dart';
 import '../widgets/card_tag.dart';
 import '../widgets/new.dart';
 
+import '../widgets/header.dart';
 import '../widgets/update_price.dart';
 
 class HomePage extends StatefulWidget {
@@ -46,6 +47,10 @@ class _HomePageState extends State<HomePage> {
             //PriceList(),
             SizedBox(
               height: 30,
+            ),
+            Header(),
+            SizedBox(
+              height: 20,
             ),
             UpdatedPrice(),
             SizedBox(

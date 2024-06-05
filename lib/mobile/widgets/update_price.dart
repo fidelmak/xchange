@@ -70,7 +70,7 @@ class _UpdatedPriceState extends State<UpdatedPrice> {
   }
 
   Widget _buildCryptoPrice(String symbol, double price) {
-    double percentageChange = 0;
+    double percentageChange = 9;
     if (previousPrices.containsKey(symbol)) {
       double previousPrice = previousPrices[symbol] ?? 0;
       percentageChange = ((price - previousPrice) / previousPrice) * 100;
@@ -99,7 +99,7 @@ class _UpdatedPriceState extends State<UpdatedPrice> {
           child: Text(
             '${percentageChange.toStringAsFixed(2)}%',
             style: TextStyle(
-              color: percentageChange >= 0 ? Colors.red : Colors.green,
+              color: percentageChange >= 0 ? Colors.green : Colors.green,
             ),
           ),
         ),

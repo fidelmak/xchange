@@ -45,12 +45,28 @@ class _CryptoPricesWidgetState extends State<CryptoPricesWidget> {
         color: cardColor,
         child: Padding(
           padding: const EdgeInsets.all(12.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          child: Column(
             children: [
-              _buildCryptoPrice('BTC/USDT', cryptoPrices['BTC'] ?? 0),
-              _buildCryptoPrice('ETH/USDT', cryptoPrices['ETH'] ?? 0),
-              _buildCryptoPrice('TRON/USDT', cryptoPrices['TRON'] ?? 0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _buildCryptoPrice('BTC/USDT', cryptoPrices['BTC'] ?? 0),
+                  _buildCryptoPrice('ETH/USDT', cryptoPrices['ETH'] ?? 0),
+                  _buildCryptoPrice('TRON/USDT', cryptoPrices['TRON'] ?? 0),
+                ],
+              ),
+              SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Icon(Icons.message),
+                  const Text("We currently offer access to flat currency"),
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.menu_outlined),
+                  ),
+                ],
+              )
             ],
           ),
         ),
@@ -83,14 +99,6 @@ class _CryptoPricesWidgetState extends State<CryptoPricesWidget> {
             color: percentageChange <= 0 ? Colors.green : Colors.green,
           ),
         ),
-        ListTile(
-          leading: Icon(Icons.speaker),
-          title: Text("We currently offer access to flat currency"),
-          trailing: IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.menu_outlined),
-          ),
-        )
       ],
     );
   }
